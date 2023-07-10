@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 define('BASE_URL', 'http://localhost/location/');
 define('BASE_PATH', 'D:/wamp64/www/location/');
 const locationTypes = [
@@ -15,3 +17,4 @@ const locationTypes = [
     10 => 'مدرسه',
     11 => 'پمپ بنزین'
 ];
+$admins = ['admin' => '$2y$10$BhuRXmpOT0YgxmH3IZgf2ugStmtMV.aciaL3ZTzw6cYA2QrwRmhQC'];
