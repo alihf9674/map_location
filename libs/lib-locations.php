@@ -8,3 +8,16 @@ function addLocation($data)
     $stmt->execute([':title' => $data['title'], ':lat' => $data['lat'], ':lng' => $data['lng'], ':typ' => $data['type']]);
     return $stmt->rowCount();
 }
+
+function getLocations($params)
+{
+    global $pdo;
+    $condition = '';
+    if(isset($params['verified']) && in_array($params['verified'],['0','1'])){
+        $condition = " WHERE `verified` = {$params['verified']}";
+    }
+    $sql = "SELECT * FROM `locations` {$condition}";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}

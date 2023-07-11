@@ -1,3 +1,6 @@
+<?php
+use Hekmatinasser\Verta\Verta;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,19 +122,20 @@
             </tr>
             </thead>
             <tbody>
-
-            <tr>
-                <td></td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-                <td>
-                    <button class="statusToggle">
-                        تایید
-                    </button>
-                    <button class="preview">👁️‍🗨️</button>
-                </td>
-            </tr>
+            <?php foreach ($locations as $location) { ?>
+                <tr>
+                    <td><?= $location->title ?></td>
+                    <td class="text-center"><?= Verta::instance($location->created_at)->format('%d %B %Y') ?></td>
+                    <td class="text-center"><?= $location->lat ?></td>
+                    <td class="text-center"><?= $location->lng ?></td>
+                    <td>
+                        <button class="statusToggle <?= $location->verified ? 'active' : '' ?>" data-loc='<?= $location->id ?>'>
+                            <?= $location->verified ? 'فعال' : 'غیرفعال ' ?>
+                        </button>
+                        <button class="preview" data-loc='<?= $location->id ?>'>👁️‍🗨️</button>
+                    </td>
+                </tr>
+            <?php } ?>
             </tbody>
         </table>
     </div>

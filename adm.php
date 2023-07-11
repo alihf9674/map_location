@@ -8,7 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         message('نام کاربری یا رمز عبور اشتباه است.');
 }
 
-if (isLoggedIn())
+if (isLoggedIn()) {
+    $params = $_GET ?? [];
+    $locations = getLocations($params);
     include 'template/admin-panel.php';
-else
+} else {
     include 'template/auth.php';
+}
