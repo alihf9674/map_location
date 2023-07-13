@@ -35,7 +35,7 @@ map.on('locationerror', function (e) {
 });
 
 function locate() {
-    console.log(map.locate({setView: true, maxZoom: 16}));
+    map.locate({setView: true, maxZoom: 16});
 }
 
 $(document).ready(function () {

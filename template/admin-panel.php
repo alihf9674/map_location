@@ -1,5 +1,7 @@
 <?php
+
 use Hekmatinasser\Verta\Verta;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,9 +92,9 @@ use Hekmatinasser\Verta\Verta;
             padding: 0 5px;
         }
 
-        iframe#mapWivdow {
+        iframe#mapWindow {
             width: 100%;
-            height: 500px;
+            height: 600px;
         }
 
         .text-center {
@@ -129,8 +131,9 @@ use Hekmatinasser\Verta\Verta;
                     <td class="text-center"><?= $location->lat ?></td>
                     <td class="text-center"><?= $location->lng ?></td>
                     <td>
-                        <button class="statusToggle <?= $location->verified ? 'active' : '' ?>" data-loc='<?= $location->id ?>'>
-                            <?= $location->verified ? 'فعال' : 'غیرفعال ' ?>
+                        <button class="statusToggle <?= $location->verified ? 'active' : '' ?>"
+                                data-loc='<?= $location->id ?>'>
+                            تایید
                         </button>
                         <button class="preview" data-loc='<?= $location->id ?>'>👁️‍🗨️</button>
                     </td>
@@ -142,14 +145,38 @@ use Hekmatinasser\Verta\Verta;
 </div>
 
 <div class="modal-overlay" style="display: none;">
-    <div class="modal" style="width: 70%; height: 400px;">
+    <div class="modal" style="width: 70%; height: 500px;">
         <span class="close">x</span>
         <div class="modal-content">
-            <iframe id='mapWivdow' src="#"></iframe>
+            <iframe id='mapWindow' src="#"></iframe>
         </div>
     </div>
 </div>
 <script src="assets/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.preview').click(function () {
+            $('.modal-overlay').fadeIn();
+            $('#mapWindow').attr('src', '<?= BASE_URL ?>?loc=' + $(this).attr('data-loc'));
+        });
+        $('.statusToggle').click(function () {
+            const btn = $(this);
+            $.ajax({
+                url: '<?= BASE_URL . 'process/statusToggle.php'?>',
+                method: 'POST',
+                data: {loc: btn.attr('data-loc')},
+                success: function (response) {
+                    if (response == 1) {
+                        btn.toggleClass('active');
+                    }
+                }
+            });
+        });
+        $('.modal-overlay .close').click(function () {
+            $('.modal-overlay').fadeOut();
+        });
+    });
+</script>
 </body>
 </html>
 
